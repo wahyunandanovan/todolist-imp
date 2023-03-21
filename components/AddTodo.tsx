@@ -61,7 +61,6 @@ function AddTodo({ onSubmitForm }: Props) {
                         <FormLabel>Description</FormLabel>
                         <Textarea {...register("descriptions", { required: true })} placeholder='your task descriptions' />
                         {errors?.descriptions && <span style={{ color: 'red', fontSize: '14px' }}>*description cannot empty</span>}
-
                      </FormControl>
                   </ModalBody>
                   <ModalFooter>

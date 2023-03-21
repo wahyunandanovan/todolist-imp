@@ -1,11 +1,12 @@
 import Head from 'next/head'
-import { Center, Card, Text } from '@chakra-ui/react'
+import { Center, Card, Text, useDisclosure } from '@chakra-ui/react'
 import AddTodo from '@/components/AddTodo'
 import Todos from '@/components/Todos'
 import React from 'react'
 import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { PostsInterface } from '@/interfaces/PostsInterface'
+import Modal from '@/components/Modal'
 
 interface IFormInput {
   title: string;
@@ -19,23 +20,51 @@ const fetchPosts = async () => {
 };
 
 export default function Home() {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
   const { data } = useQuery({ queryKey: ['posts'], queryFn: fetchPosts })
 
   const newData = data?.slice(0, 3)
 
   const [todos, setTodos] = React.useState(newData)
 
+  const randomId = Math.floor(Math.random() * 98765432123456789)
 
+  //ADD TODO
   const _onSubmit = (v: IFormInput) => {
     const initialData = [...todos]
     const value: PostsInterface = {
       title: v.title,
       body: v.descriptions,
-      id: 2,
+      id: randomId,
       userId: 1671
     }
     initialData.push(value)
     setTodos(initialData)
+
+  }
+  //DETAIL TODO
+  const [selectedTodo, setSelectedTodo] = React.useState<PostsInterface>()
+  const _onDetail = (v: PostsInterface) => {
+    setIsEdit(false)
+    setSelectedTodo(v)
+    onOpen()
+  }
+
+  //EDIT TODO
+  const [isEdit, setIsEdit] = React.useState(false)
+  const [isEditItem, setIsEditItem] = React.useState<PostsInterface>()
+  const _onEdit = async (v: PostsInterface) => {
+    await setIsEditItem(v)
+    await setIsEdit(true)
+    onOpen()
+  }
+
+  //DELETE TODO
+  const _onDelete = (e: PostsInterface) => {
+    const initialData = [...todos]
+    const results = initialData.filter((v: PostsInterface) => v.id !== e.id)
+    setTodos(results)
 
   }
 
@@ -50,10 +79,11 @@ export default function Home() {
       <Center h='100vh' color='white' sx={{ backgroundImage: '#fff' }}>
         <Card p={8} w={[350, 450, 600]} >
           <Text fontSize='2xl' color='#000' textAlign='start' fontWeight='700'>Todo App</Text>
-          <Todos data={todos} />
+          <Todos data={todos} onEdit={(v) => _onEdit(v)} onDelete={(v) => _onDelete(v)} onDetail={(v) => _onDetail(v)} />
           <AddTodo onSubmitForm={(v) => _onSubmit(v)} />
         </Card>
       </Center>
+      <Modal isForm={isEdit} title='Details' openModal={isOpen} closeModal={onClose} itemTitle={selectedTodo?.title} itemBody={selectedTodo?.body} data={isEditItem}></Modal>
     </>
   )
 }

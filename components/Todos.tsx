@@ -1,10 +1,17 @@
 import React from 'react'
 import { Box, SimpleGrid, Text, ButtonGroup, IconButton } from '@chakra-ui/react'
-import { CheckCircleIcon, EditIcon, DeleteIcon } from '@chakra-ui/icons'
+import { CheckCircleIcon, EditIcon, DeleteIcon, ViewIcon } from '@chakra-ui/icons'
 import { PostsInterface } from '@/interfaces/PostsInterface'
 
+interface Props {
+   data: PostsInterface[],
+   onEdit: (v: PostsInterface) => void
+   onDelete: (v: PostsInterface) => void
+   onDetail: (v: PostsInterface) => void
 
-function Todos({ data }: any) {
+}
+
+function Todos({ data, onEdit, onDelete, onDetail }: Props) {
    return (
       <Box my={8}>
          {data?.map((item: PostsInterface, idx: number) => {
@@ -20,17 +27,19 @@ function Todos({ data }: any) {
                   <Box  >
                      <ButtonGroup variant='solid' spacing='6'>
                         <IconButton
+                           onClick={() => onDetail(item)}
                            colorScheme='blue'
                            aria-label='detail'
-                           icon={<EditIcon />}
-                        // sx={{ cursor: 'not-allowed' }}
+                           icon={<ViewIcon />}
                         />
                         <IconButton
+                           onClick={() => onEdit(item)}
                            colorScheme='green'
                            aria-label='edit'
                            icon={<EditIcon />}
                         />
                         <IconButton
+                           onClick={() => onDelete(item)}
                            colorScheme='red'
                            aria-label='delete'
                            icon={<DeleteIcon />}
