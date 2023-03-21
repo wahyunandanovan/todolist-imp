@@ -81,7 +81,6 @@ export default function Modal({ openModal, closeModal, title, itemTitle, itemBod
                      <Text fontWeight='bold'>Descriptions :</Text>
                      <Text color='rgb(134, 142, 150)'>{itemBody}</Text>
                      <br />
-
                   </ModalBody>
 
                </ModalContent>

@@ -38,8 +38,12 @@ function AddTodo({ onSubmitForm }: Props) {
 
    return (
       <Box>
-         <Button onClick={onOpen} width='100%' colorScheme='blue'>Add Todo</Button>
-
+         <Button
+            onClick={onOpen}
+            width={'100%'}
+            colorScheme={'blue'}>
+            Add Todo
+         </Button>
          <Modal
             initialFocusRef={initialRef}
             finalFocusRef={finalRef}
@@ -64,7 +68,7 @@ function AddTodo({ onSubmitForm }: Props) {
                      </FormControl>
                   </ModalBody>
                   <ModalFooter>
-                     <Button colorScheme='blue' mr={3} type='submit'>
+                     <Button colorScheme={'blue'} mr={3} type='submit'>
                         Save
                      </Button>
                      <Button onClick={onClose}>Cancel</Button>
