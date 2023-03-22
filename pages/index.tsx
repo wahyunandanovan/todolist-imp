@@ -68,6 +68,23 @@ export default function Home() {
 
   }
 
+  //SUBMIT EDITING 
+  const _onSubmitEditing = (v: IFormInput) => {
+    const todoData = [...todos]
+    const initialData = { ...isEditItem }
+    const res = todoData?.findIndex((td: PostsInterface) => {
+      return td.id === initialData.id
+    })
+    const newTodoData = {
+      ...initialData,
+      title: v.title,
+      body: v.descriptions
+    }
+    todoData[res] = newTodoData
+    setTodos(todoData)
+    onClose()
+  }
+
   return (
     <>
       <Head>
@@ -83,7 +100,16 @@ export default function Home() {
           <AddTodo onSubmitForm={(v) => _onSubmit(v)} />
         </Card>
       </Center>
-      <Modal isForm={isEdit} title='Details' openModal={isOpen} closeModal={onClose} itemTitle={selectedTodo?.title} itemBody={selectedTodo?.body} data={isEditItem}></Modal>
+      <Modal
+        isForm={isEdit}
+        onSubmitForm={(v: IFormInput) => _onSubmitEditing(v)}
+        title='Details'
+        openModal={isOpen}
+        closeModal={onClose}
+        itemTitle={selectedTodo?.title}
+        itemBody={selectedTodo?.body}
+        data={isEditItem}
+      />
     </>
   )
 }

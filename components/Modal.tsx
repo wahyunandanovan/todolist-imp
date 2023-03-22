@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react'
 import { useForm } from "react-hook-form";
 import React from 'react';
+import { PostsInterface } from '@/interfaces/PostsInterface';
 
 interface IFormInput {
    title: string;
@@ -23,23 +24,30 @@ interface IFormInput {
 }
 
 interface Props {
+   openModal: boolean;
+   closeModal: () => void;
+   title: string;
+   itemTitle: string | undefined;
+   itemBody: string | undefined;
+   isForm: boolean;
+   onCloseForm?: () => void;
+   data: PostsInterface | undefined
    onSubmitForm: (v: IFormInput) => void
 }
 
-export default function Modal({ openModal, closeModal, title, itemTitle, itemBody, isForm, onCloseForm, data }: any) {
-   const { register, handleSubmit, formState: { errors }, reset } = useForm<IFormInput>();
+export default function Modal({ openModal, closeModal, title, itemTitle, itemBody, isForm, onCloseForm, data, onSubmitForm }: Props) {
+   const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>({
+      defaultValues: {
+         title: data?.title,
+         descriptions: data?.body,
+      }
+   });
 
 
    const onSubmit = (data: IFormInput) => {
-      // onSubmitForm(data);
+      onSubmitForm(data);
    }
 
-   React.useEffect(() => {
-      let defaultValues: IFormInput | any = {};
-      defaultValues.title = data?.title;
-      defaultValues.descriptions = data?.body;
-      reset({ ...defaultValues });
-   }, []);
 
    return (
       <>
