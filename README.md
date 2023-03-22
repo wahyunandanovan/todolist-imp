@@ -24,11 +24,3 @@ Install my-project with npm
 
 
 
-## Environment Variables
-
-To run this project, you will need to add the following environment variables to your .env file
-
-`VITE_SUPABASE_URL : https://yoursupabaseurl.supabase.co`
-
-`VITE_SUPABASE_KEY : exampleabcdefghijklmnopqrtydsgkcyudkgcdskuvcydsvusdvyudvhjduyvciudyaisyvd`
-
