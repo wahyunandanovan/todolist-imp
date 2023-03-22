@@ -1,12 +1,14 @@
+import React from 'react'
+//C0MPONENTS
 import Head from 'next/head'
-import { Center, Card, Text, useDisclosure } from '@chakra-ui/react'
 import AddTodo from '@/components/AddTodo'
 import Todos from '@/components/Todos'
-import React from 'react'
-import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query'
-import axios from 'axios'
-import { PostsInterface } from '@/interfaces/PostsInterface'
 import Modal from '@/components/Modal'
+import { PostsInterface } from '@/interfaces/PostsInterface'
+import { Center, Card, Text, useDisclosure } from '@chakra-ui/react'
+//UTILITIES
+import axios from 'axios'
+import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query'
 
 interface IFormInput {
   title: string;
@@ -115,7 +117,6 @@ export default function Home() {
 }
 export async function getStaticProps() {
   const queryClient = new QueryClient()
-
   await queryClient.prefetchQuery(['posts'], fetchPosts)
 
   return {
